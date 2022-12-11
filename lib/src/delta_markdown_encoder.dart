@@ -233,23 +233,27 @@ class DeltaMarkdownEncoder extends Converter<String, String> {
       buffer.write(!close ? '```\n' : '\n```');
     } else if (attribute == Attribute.inlineCode) {
       buffer.write(!close ? ' `' : '` ');
-    } else if (attribute == Attribute.align ||
-        attribute == Attribute.leftAlignment ||
-        attribute == Attribute.centerAlignment ||
-        attribute == Attribute.rightAlignment ||
-        attribute == Attribute.justifyAlignment) {
-      if (attribute == Attribute.leftAlignment) {
-        buffer.write(!close ? r'<p style="text-align: left">' : r'</p>');
-      } else if (attribute == Attribute.centerAlignment) {
-        buffer.write(!close ? r'<p style="text-align: center">' : r'</p>');
-      } else if (attribute == Attribute.rightAlignment) {
-        buffer.write(!close ? r'<p style="text-align: right">' : r'</p>');
-      } else if (attribute == Attribute.justifyAlignment) {
-        buffer.write(!close ? r'<p style="text-align: justify">' : r'</p>');
-      }
-    } else {
-      throw ArgumentError('Cannot handle $attribute');
     }
+    /// Cannot handle
+    // else if (attribute == Attribute.align ||
+    //     attribute == Attribute.leftAlignment ||
+    //     attribute == Attribute.centerAlignment ||
+    //     attribute == Attribute.rightAlignment ||
+    //     attribute == Attribute.justifyAlignment) {
+    //   if (attribute == Attribute.leftAlignment) {
+    //     buffer.write(!close ? r'<p style="text-align: left">' : r'</p>');
+    //   } else if (attribute == Attribute.centerAlignment) {
+    //     buffer.write(!close ? r'<p style="text-align: center">' : r'</p>');
+    //   } else if (attribute == Attribute.rightAlignment) {
+    //     buffer.write(!close ? r'<p style="text-align: right">' : r'</p>');
+    //   } else if (attribute == Attribute.justifyAlignment) {
+    //     buffer.write(!close ? r'<p style="text-align: justify">' : r'</p>');
+    //   }
+    // } else if (attribute == Attribute.color ||
+    //     attribute == Attribute.background) {
+    // } else {
+    //   throw ArgumentError('Cannot handle $attribute');
+    // }
   }
 
   void _writeBlockTag(
@@ -289,9 +293,10 @@ class DeltaMarkdownEncoder extends Converter<String, String> {
         final indent = block.value as int;
         buffer.write('&nbsp;' * indent);
       }
-    } else {
-      throw ArgumentError('Cannot handle block $block');
     }
+    // else {
+    //   throw ArgumentError('Cannot handle block $block');
+    // }
   }
 
   void _writeEmbedTag(
