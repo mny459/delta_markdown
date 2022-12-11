@@ -190,6 +190,10 @@ class DeltaMarkdownEncoder extends Converter<String, String> {
       markdownBuffer.write(currentBlockLines.join('\n'));
       _writeAttribute(markdownBuffer, blockStyle, close: true);
       markdownBuffer.writeln();
+    } else if (blockStyle == Attribute.inlineCode) {
+      _writeAttribute(markdownBuffer, blockStyle);
+      markdownBuffer.write(currentBlockLines);
+      _writeAttribute(markdownBuffer, blockStyle, close: true);
     } else {
       // Dealing with lists or a quote.
       for (final line in currentBlockLines) {
@@ -227,6 +231,8 @@ class DeltaMarkdownEncoder extends Converter<String, String> {
       buffer.write(!close ? '[' : '](${attribute.value})');
     } else if (attribute == Attribute.codeBlock) {
       buffer.write(!close ? '```\n' : '\n```');
+    } else if (attribute == Attribute.inlineCode) {
+      buffer.write(!close ? ' `' : '` ');
     } else if (attribute == Attribute.align ||
         attribute == Attribute.leftAlignment ||
         attribute == Attribute.centerAlignment ||
