@@ -181,6 +181,15 @@ class DeltaMarkdownEncoder extends Converter<String, String> {
       markdownBuffer.write(currentBlockLines.join('\n'));
       _writeAttribute(markdownBuffer, blockStyle, close: true);
       markdownBuffer.writeln();
+    } else if (blockStyle == Attribute.align ||
+        blockStyle == Attribute.leftAlignment ||
+        blockStyle == Attribute.centerAlignment ||
+        blockStyle == Attribute.rightAlignment ||
+        blockStyle == Attribute.justifyAlignment) {
+      _writeAttribute(markdownBuffer, blockStyle);
+      markdownBuffer.write(currentBlockLines.join('\n'));
+      _writeAttribute(markdownBuffer, blockStyle, close: true);
+      markdownBuffer.writeln();
     } else {
       // Dealing with lists or a quote.
       for (final line in currentBlockLines) {
@@ -218,6 +227,20 @@ class DeltaMarkdownEncoder extends Converter<String, String> {
       buffer.write(!close ? '[' : '](${attribute.value})');
     } else if (attribute == Attribute.codeBlock) {
       buffer.write(!close ? '```\n' : '\n```');
+    } else if (attribute == Attribute.align ||
+        attribute == Attribute.leftAlignment ||
+        attribute == Attribute.centerAlignment ||
+        attribute == Attribute.rightAlignment ||
+        attribute == Attribute.justifyAlignment) {
+      if (attribute == Attribute.leftAlignment) {
+        buffer.write(!close ? r'<p style="text-align: left">' : r'</p>');
+      } else if (attribute == Attribute.centerAlignment) {
+        buffer.write(!close ? r'<p style="text-align: center">' : r'</p>');
+      } else if (attribute == Attribute.rightAlignment) {
+        buffer.write(!close ? r'<p style="text-align: right">' : r'</p>');
+      } else if (attribute == Attribute.justifyAlignment) {
+        buffer.write(!close ? r'<p style="text-align: justify">' : r'</p>');
+      }
     } else {
       throw ArgumentError('Cannot handle $attribute');
     }
@@ -244,6 +267,22 @@ class DeltaMarkdownEncoder extends Converter<String, String> {
       buffer.write('## ');
     } else if (block.key == Attribute.h3.key && block.value == 3) {
       buffer.write('### ');
+    } else if (block.key == Attribute.unchecked.key &&
+        block.value == Attribute.unchecked.value) {
+      buffer.write('- [ ] ');
+    } else if (block.key == Attribute.checked.key &&
+        block.value == Attribute.checked.value) {
+      buffer.write('- [x] ');
+    } else if (block.key == Attribute.indent.key) {
+      if (block.value is int) {
+        final indent = block.value as int;
+        buffer.write('&nbsp;' * indent);
+      }
+    } else if (block.key == Attribute.align.key) {
+      if (block.value is int) {
+        final indent = block.value as int;
+        buffer.write('&nbsp;' * indent);
+      }
     } else {
       throw ArgumentError('Cannot handle block $block');
     }
