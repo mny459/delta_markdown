@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter_quill/flutter_quill.dart'
     show Attribute, AttributeScope, BlockEmbed, Style;
-import 'package:flutter_quill/quill_delta.dart';
+import 'package:flutter_quill/quill_delta.dart' show Delta, DeltaIterator;
 
 class DeltaMarkdownEncoder extends Converter<String, String> {
   static const _lineFeedAsciiCode = 0x0A;
@@ -235,7 +235,6 @@ class DeltaMarkdownEncoder extends Converter<String, String> {
     } else if (attribute == Attribute.inlineCode) {
       buffer.write(!close ? ' `' : '` ');
     }
-
     /// Cannot handle
     // else if (attribute == Attribute.align ||
     //     attribute == Attribute.leftAlignment ||

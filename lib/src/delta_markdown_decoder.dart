@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter_quill/flutter_quill.dart'
     show Attribute, AttributeScope, LinkAttribute;
-import 'package:flutter_quill/quill_delta.dart';
+import 'package:flutter_quill/quill_delta.dart' show Delta;
 
 import 'ast.dart' as ast;
 import 'document.dart';
